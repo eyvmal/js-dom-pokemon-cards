@@ -13,20 +13,38 @@ function addCard() {
         const img = document.createElement('img')
         img.className = 'card--img'
         img.width = 256
-        img.src = card.sprites.other['official-artwork'].front_default;
-        li.appendChild(img);
+        img.src = card.sprites.other['official-artwork'].front_default
+        li.appendChild(img)
 
-        const ul = document.createElement('ul');
-        ul.className = 'card--text';
+        // Add event listener for image click to swap image source
+        img.addEventListener('click', () => {
+            if (img.src === card.sprites.other['official-artwork'].front_default) {
+                img.src = card.sprites.back_default || card.sprites.front_default
+            } else {
+                img.src = card.sprites.other['official-artwork'].front_default
+            }
+        });
+
+        const ul = document.createElement('ul')
+        ul.className = 'card--text'
 
         card.stats.forEach((stat) => {
-            const statLi = document.createElement('li');
-            statLi.textContent = `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`;
+            const statLi = document.createElement('li')
+            statLi.textContent = `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`
             ul.appendChild(statLi);
         });
 
+        const games = []
+        card.game_indices.forEach((game) => {
+             games.push(`${game.version.name.toUpperCase()}`);
+        });
+        const gamesLi = document.createElement('li')
+        gamesLi.textContent = games.toString()
+        gamesLi.style.wordBreak = 'break-all';
+        ul.appendChild(gamesLi);
+
         li.appendChild(ul);
-        cards.appendChild(li);
+        cards.appendChild(li)
     })
 }
 
